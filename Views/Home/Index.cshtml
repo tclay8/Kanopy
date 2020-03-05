@@ -1,0 +1,597 @@
+﻿@model Kanopy.Models.UserDashboardViewModel
+
+<div class="content-wrapper bg-gradient-gray-dark">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-white">Dashboard</h1>
+                </div><!-- /.col -->
+                @*<div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active text-white">Dashboard v1</li>
+                        </ol>
+                    </div>*@
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <section class="content">
+        <div class="container-fluid">
+            @*@if (!(User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")) || (User.IsInRole("Submitter")))
+            {
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="small-box bg-orange">
+                            <div class="inner">
+
+                                <h5>You are currently not assigned in any role.  An administrator has been alerted to assign a role.  Functionality of the site may be limited until then.  Please contact management if you have any questions or concerns.</h5>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-info"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }*@
+            <!-- User Roles Info Boxes (Stat box) -->
+            <div class="row">
+                @if (User.IsInRole("Admin"))
+                {
+
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>@Model.NewUsers.Count()</h3>
+
+                                <h4>New Users</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <a href="@Url.Action("AssignUserRole","Roles")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>@Model.Urgent</h3>
+
+                                <h4>Urgent Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-burn"></i>
+                            </div>
+                            <a href="@Url.Action("UrgentTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 style="color:white">@Model.New</h3>
+
+                                <h4 style="color:white">New Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-seedling"></i>
+                            </div>
+                            <a href="@Url.Action("NewTicket","Home")" class="small-box-footer text-white" style="color:white">More info <i class="fas fa-arrow-circle-right" style="color:white"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-orange">
+                            <div class="inner">
+                                <h3>@Model.OnHold</h3>
+
+                                <h4>Tickets On Hold</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-archive"></i>
+                            </div>
+                            <a href="@Url.Action("OnHoldTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                }
+                @if (User.IsInRole("ProjectManager"))
+                {
+
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>@Model.InProgress</h3>
+
+                                <h4>In Progress</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <a href="@Url.Action("InProgressTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>@Model.Urgent</h3>
+
+                                <h4>Urgent Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-burn"></i>
+                            </div>
+                            <a href="@Url.Action("UrgentTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 style="color:white">@Model.New</h3>
+
+                                <h4 style="color:white">New Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-seedling"></i>
+                            </div>
+                            <a href="@Url.Action("NewTicket","Home")" class="small-box-footer text-white" style="color:white">More info <i class="fas fa-arrow-circle-right" style="color:white"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-orange">
+                            <div class="inner">
+                                <h3>@Model.OnHold</h3>
+
+                                <h4>Tickets On Hold</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-archive"></i>
+                            </div>
+                            <a href="@Url.Action("OnHoldTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                }
+                @if (User.IsInRole("Developer"))
+                {
+
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>@Model.AllTickets</h3>
+
+                                <h4>Assigned Tickets</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <a href="@Url.Action("Index","Tickets")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>@Model.Urgent</h3>
+
+                                <h4>Urgent Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-burn"></i>
+                            </div>
+                            <a href="@Url.Action("UrgentTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>@Model.New</h3>
+
+                                <h4>New Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-seedling"></i>
+                            </div>
+                            <a href="@Url.Action("NewTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right" style="color:white"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-orange">
+                            <div class="inner">
+                                <h3 style="color:white">@Model.OnHold</h3>
+
+                                <h4 style="color:white">Tickets On Hold</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-archive"></i>
+                            </div>
+                            <a href="@Url.Action("OnHoldTicket","Home")" class="small-box-footer" style="color:white">More info <i class="fas fa-arrow-circle-right" style="color:white"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                }
+                @if (User.IsInRole("Submitter"))
+                {
+
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>@Model.AllTickets</h3>
+
+                                <h4>Tickets In Progress</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <a href="@Url.Action("InProgressTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>@Model.Completed</h3>
+
+                                <h4>Completed Tickets</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <a href="@Url.Action("CompletedTicket","Home")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>Create</h3>
+
+                                <h4>New Ticket</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <a href="@Url.Action("Create","Tickets")" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- ./col -->
+                }
+
+
+
+
+            </div>
+            <!-- /.row -->
+
+
+            @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")) || (User.IsInRole("Submitter")))
+            {
+
+                <!--Projects-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- Projects -->
+                        <div class="small-box bg-purple" style="overflow: auto">
+                            <div class="inner">
+                                <h3>Projects</h3>
+
+                                @*<h4>New Users</h4>*@
+                                <div class="form-group">
+
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Project Name
+                                            </th>
+                                            @*<th>
+                                                    Project Manager
+                                                </th>*@
+
+                                            <th></th>
+                                            <th>% Complete</th>
+                                        </tr>
+
+                                        @foreach (var item in Model.CompTickets)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Project.Name
+                                                </td>
+                                                @*<td>
+                                                        @Html.DisplayFor(modelItem => item.ProjectManager)
+                                                    </td>*@
+
+                                                <td>
+                                                    @Html.ActionLink("Details", "Details", "Projects", new { id = item.Project.Id }, new { @class = "btn btn-sm btn-default" }) 
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="knob" value="@item.PercentComplete%" data-width="90" data-height="90" data-fgColor="#ffc107">
+
+                                                    <!-- ./col -->
+
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+
+                            </div>
+                            @*<div class="icon">
+                                <i class="fas fa-list"></i>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+
+        <!-- Ticket Donut Graph Charts -->
+        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")) || (User.IsInRole("Submitter")))
+        {
+
+            <div class="row">
+                <!-- Left col -->
+                <section class="col-lg-4 connectedSortable">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color:black">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Ticket Status
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="card-body">
+                                    <canvas id="ticketStatus" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <section class="col-lg-4 connectedSortable">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color:black">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Ticket Type
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="card-body">
+                                    <canvas id="ticketType" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <section class="col-lg-4 connectedSortable">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color:black">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Ticket Priority
+                            </h3>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="card-body">
+                                    <canvas id="ticketPriority" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- right col -->
+            </div>
+        }
+        <!-- /.row (main row) -->
+        <!---->
+</div><!-- /.container-fluid -->
+    </section>
+<!-- /.content -->
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/Chart.min.js"></script>
+
+    <script>
+          // Donut Chart
+    var donutChartCanvas = $('#ticketStatus').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+        'New',
+        'In Progress',
+        'Completed',
+        'On Hold',
+      ],
+      datasets: [
+        {
+          data: [@Model.New,@Model.InProgress,@Model.Completed,@Model.OnHold],
+          backgroundColor : ['#f56954', '#00a65a', '#00c0ef', '#f39c12'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+    </script>
+    <script>
+          // Donut Chart
+    var donutChartCanvas = $('#ticketPriority').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+        'Urgent',
+        'High',
+        'Medium',
+        'Low',
+      ],
+      datasets: [
+        {
+          data: [@Model.Urgent,@Model.High,@Model.Medium,@Model.Low],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+    </script>
+    <script>
+          // Donut Chart
+    var donutChartCanvas = $('#ticketType').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+        'Production Fix',
+        'Production Task',
+        'Software Update',
+      ],
+      datasets: [
+        {
+          data: [@Model.ProductionFix,@Model.ProductionTask,@Model.SoftwareUpdate],
+          backgroundColor : ['#f56954', '#00a65a', '#00c0ef'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+    </script>
+    <script>
+        $(function () {
+            /* jQueryKnob */
+
+            $('.knob').knob({
+                /*change : function (value) {
+                 //console.log("change : " + value);
+                 },
+                 release : function (value) {
+                 console.log("release : " + value);
+                 },
+                 cancel : function () {
+                 console.log("cancel : " + this.value);
+                 },*/
+                draw: function () {
+
+                    // "tron" case
+                    if (this.$.data('skin') == 'tron') {
+
+                        var a = this.angle(this.cv)  // Angle
+                            ,
+                            sa = this.startAngle          // Previous start angle
+                            ,
+                            sat = this.startAngle         // Start angle
+                            ,
+                            ea                            // Previous end angle
+                            ,
+                            eat = sat + a                 // End angle
+                            ,
+                            r = true
+
+                        this.g.lineWidth = this.lineWidth
+
+                        this.o.cursor
+                            && (sat = eat - 0.3)
+                            && (eat = eat + 0.3)
+
+                        if (this.o.displayPrevious) {
+                            ea = this.startAngle + this.angle(this.value)
+                            this.o.cursor
+                                && (sa = ea - 0.3)
+                                && (ea = ea + 0.3)
+                            this.g.beginPath()
+                            this.g.strokeStyle = this.previousColor
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false)
+                            this.g.stroke()
+                        }
+
+                        this.g.beginPath()
+                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false)
+                        this.g.stroke()
+
+                        this.g.lineWidth = 2
+                        this.g.beginPath()
+                        this.g.strokeStyle = this.o.fgColor
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false)
+                        this.g.stroke()
+
+                        return false
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+}

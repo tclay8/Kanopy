@@ -1,0 +1,62 @@
+﻿@model Kanopy.Models.TicketNotification
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="content-wrapper bg-gradient-gray-dark">
+    <div class="container">
+
+        <h2>Details</h2>
+
+        <div>
+            <h4>TicketNotification</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Ticket.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Ticket.Title)
+                </dd>
+
+                <dt>
+                    Sender
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Sender.FirstName)
+                </dd>
+
+                <dt>
+                    Recipient
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Receipient.FirstName)
+                </dd>
+
+                <dt>
+                    Notification Body
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NotificationBody)
+                </dd>
+
+                <dt>
+                    Has Been Read
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.HasBeenRead)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>

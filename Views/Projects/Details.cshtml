@@ -1,0 +1,170 @@
+﻿@model Kanopy.Models.Project
+
+
+<div class="content-wrapper bg-gradient-gray-dark">
+    <div class="container">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-white">Details</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="~/Projects/Index">Projects</a></li>
+                            <li class="breadcrumb-item active text-white">@Model.Name</li>
+                        </ol>
+                    </div>
+                </div><!-- /.row -->
+                <hr />
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <div class="row">
+                    <div class="col-lg-12 col-6">
+                        <!-- Details Box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>
+                                    @Html.DisplayFor(model => model.Name)
+                                </h3>
+                                <h6>
+                                    @Html.DisplayFor(model => model.Details)
+                                </h6>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Status Box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 style="color:white">Ticket Status</h3>
+
+                                <canvas id="ticketStatus" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Users Box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>Project Users</h3>
+
+                                @foreach (var user in Model.Users)
+                                {
+                                    <p>@user.FirstName @user.LastName</p>
+                                }
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+
+                <table id="ticketTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Assigned To
+                            </th>
+                            <th>
+                                Priority
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody style="color: white">
+                        @foreach (var item in Model.Tickets)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/Chart.min.js"></script>
+
+    <script>
+          // Donut Chart
+    var donutChartCanvas = $('#ticketStatus').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+        'New',
+        'In Progress',
+        'Completed',
+        'On Hold',
+      ],
+      datasets: [
+        {
+          data: [@Model.New,@Model.InProgress,@Model.Completed,@Model.OnHold],
+          backgroundColor : ['#00a65a', '#ff1a75', '#00c0ef', '#9900cc'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+    </script>
+    }
+

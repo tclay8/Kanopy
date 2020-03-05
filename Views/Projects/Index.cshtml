@@ -1,0 +1,321 @@
+﻿@model Kanopy.Models.ProjectsIndexViewModel
+
+
+<div class="content-wrapper bg-gradient-gray-dark">
+    <div class="container">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-white">Projects</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="~/Home/Index">Dashboard</a></li>
+                            <li class="breadcrumb-item active text-white">Projects</li>
+                        </ol>
+                    </div>
+                </div><!-- /.row -->
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <div class="row" style="padding-bottom:20px">
+            <div class="col-lg-10 offset-1">
+
+                <div class="card">
+                    <div class="card-header" style="color:black">
+                        <h1 class="card-title">
+                            Index
+                        </h1>
+                    </div><!-- /.card-header -->
+                    <div class="card-body bg-cyan">
+                        <div class="tab-content p-0">
+                            <div class="chart tab-pane active" id="local-login"
+                                 style="position: relative; height: 325px;">
+                                <div class="form-group">
+
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    {
+                                        <p>
+                                            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-sm btn-secondary" })
+                                        </p>
+                                    }
+
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Project Name
+                                            </th>
+                                            <th></th>
+                                        </tr>
+
+                                        @foreach (var item in Model.Projects)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" }) 
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+
+
+        @*<div class="content-wrapper bg-cyan">
+            <div class="container">
+
+                <h2>Projects</h2>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    <p>
+                        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-sm btn-secondary" })
+                    </p>
+                }
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            Project Name
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.Projects)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                    <div class="btn-group">
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                        @Html.ActionLink("Assign Project", "AssignProject", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                        @Html.ActionLink("Remove Project", "RemoveProject", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+
+
+                                    <button
+                                        @Html.ActionLink("AssignProject", "Projects", null, new { @class = "btn btn-sm btn-default" })
+                                        @Html.ActionLink("RemoveProject", "Projects", null, new { @class = "btn btn-sm btn-default" })
+                                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editProj">Edit</button>
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addUser">Add User</button>
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#removeUser">Remove User</button>
+
+
+                                }
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" }) |
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>*@
+        <!-- Modal -->
+        @using (Ajax.BeginForm("SaveBlog", "Home", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "frmEmp" }))
+        {
+
+            <div>
+                <div class="modal fade" id="editProj" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Edit Project</h4>
+                            </div>
+                            <div class="modal-body" id="frmEmp">
+                                @Html.AntiForgeryToken()
+                                @if (ViewBag.Message != null)
+                                {
+                                    <span class="text-success">@ViewBag.Message</span>
+                                }
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Project.Id)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Submit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div id="editProj" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Forgot your password?</h4>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Project</h4>
+                                <hr />
+                                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Project.Id)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="addUser" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Forgot your password?</h4>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("AssignProject", "Projects", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Assign a user to a project.</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("User List", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @* @Html.DropDownListFor(m => m.Assign.UserId, null, htmlAttributes: new { @class = "form-control" })*@
+                                        @*@Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @*@Html.DropDownListFor(m => m.Assign.ProjectId, null, htmlAttributes: new { @class = "form-control" })*@
+                                        @*@Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Submit" class="btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="removeUser" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Forgot your password?</h4>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("RemoveProject", "Roles", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Remove a user from a project.</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("User List", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @*@Html.DropDownListFor(m => m.Remove.UserId, null, htmlAttributes: new { @class = "form-control" })*@
+                                        @*@Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @*@Html.DropDownListFor(m => m.Remove.ProjectId, null, htmlAttributes: new { @class = "form-control" })*@
+                                        @*@Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Submit" class="btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    </div>
+</div>

@@ -1,0 +1,385 @@
+﻿@model Kanopy.Models.TicketDetailViewModel
+
+<div class="content-wrapper bg-gradient-gray-dark">
+    <div class="container">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-white">Details</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="~/Tickets/Index">Tickets</a></li>
+                            <li class="breadcrumb-item active text-white">@Model.Ticket.Title</li>
+                        </ol>
+                    </div>
+                </div><!-- /.row -->
+                <hr />
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <div class="row">
+            <div class="col-6">
+                <!--Ticket Card-->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color:black">
+                            Ticket
+                        </h3>
+                        @if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager")))
+                        {
+                            <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#ticket-card" data-toggle="tab">Ticket</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link success" href="#assign-dev" data-toggle="tab">Assign Developer</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        }
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body bg-cyan">
+                        <div class="tab-content p-0">
+                            <div class="chart tab-pane active overflow-auto" id="ticket-card"
+                                 style="position: relative; height: 300px;">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Assigned To
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.AssignedToUser.FirstName)
+                                    </dd>
+
+                                    <dt>
+                                        Owner
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.OwnerUser.FirstName)
+                                    </dd>
+
+                                    <dt>
+                                        Project Name
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.Project.Name)
+                                    </dd>
+
+                                    <dt>
+                                        Priority
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.TicketPriority.Name)
+                                    </dd>
+
+                                    <dt>
+                                        Status
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.TicketStatus.Name)
+                                    </dd>
+
+                                    <dt>
+                                        Type
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.TicketType.Name)
+                                    </dd>
+
+                                    <dt>
+                                        Title
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.Title)
+                                    </dd>
+
+                                    <dt>
+                                        Description
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.Description)
+                                    </dd>
+
+                                    <dt>
+                                        Created
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.Created)
+                                    </dd>
+
+                                    <dt>
+                                        Updated
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Ticket.Updated)
+                                    </dd>
+
+                                </dl>
+                                <div class="btn-group">
+                                    @Html.ActionLink("Edit", "Edit", new { id = Model.Ticket.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-sm btn-secondary" })
+                                </div>
+                            </div>
+                            <!--Assign Developer Tab-->
+                            <div class="chart tab-pane" id="assign-dev"
+                                 style="position: relative; height: 300px;">
+                                @using (Html.BeginForm("AssignTicket", "Tickets", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+                                        <h4>Assign developer to ticket.</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.Hidden("ticketId", Model.Ticket.Id)
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @*@Html.DropDownListFor(m => m.Ticket.AssignedToUserId, Model.AssignUser, new { @class = "form-control" })*@
+                                                @Html.DropDownList("assignedId", Model.AssignUser, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Ticket.AssignedToUserId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        @*<div class="form-group">
+                                                @Html.LabelFor(model => model.Ticket.AssignedToUserId, "Assign Developer", new { @class = "control-label col-md-7" })
+                                                <div class="col-md-12">
+                                                    @Html.DropDownList(Model.Ticket.AssignedToUserId, Model.AssignUser, null, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Ticket.AssignedToUserId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+
+
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Save" class="btn btn-secondary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div>
+            <div class="col-6">
+
+                <div class="row">
+                    <div class="col-12">
+                        <!--Comments Card-->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" style="color:black">
+                                    Comments
+                                </h3>
+                                <div class="card-tools">
+                                    <ul class="nav nav-pills ml-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#comment-form" data-toggle="tab">Add Comment</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link success" href="#comment-list" data-toggle="tab">Comments</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- /.card-header -->
+                            <div class="card-body bg-cyan overflow-auto">
+                                <div class="tab-content p-0">
+                                    <div class="chart tab-pane active" id="comment-form"
+                                         style="position: relative; height: 300px;">
+                                        <div id="comments-form" class="row wow fadeIn" data-wow-delay="0.5s">
+                                            <div class="col-md-12">
+                                                <div id="message"></div>
+                                                <form method="post" action="@Url.Action("Create","TicketComments")" id="commentform" class="comment-form">
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("TicketId", Model.Ticket.Id)
+                                                    <textarea name="Comment" class="form-control" id="Comment" placeholder="Your Message *" required data-validation-required-message="Please enter a message."></textarea>
+                                                    <button class="btn btn-secondary pull-right" style="color:white" type="submit">Submit</button>
+
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chart tab-pane overflow-auto" id="comment-list" style="position: relative; height: 300px;">
+                                        @foreach (var item in Model.Ticket.TicketComments)
+                                        {
+                                            <div class="media-body">
+                                                <div class="well">
+                                                    <div class="media-heading">
+                                                        <span class="heading-font">@item.Name</span>&nbsp; <small>@item.Created</small>
+                                                    </div>
+                                                    <p>@item.Comment</p>
+
+                                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                                    {
+                                                        <div class="btn-group">
+                                                            @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                                            @Html.ActionLink("Delete", "Delete", "TicketComments", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div><!-- /.card-body -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!--Atachments Card-->
+                <div class="card">
+                    <div class="card-header" style="color:black">
+                        <h3 class="card-title">
+                            Attachments
+                        </h3>
+                        <div class="card-tools">
+                            <ul class="nav nav-pills ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#add-attachments" data-toggle="tab">Add Attachment</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#view-attachments" data-toggle="tab">Attachments</a>
+                                </li>
+                                <button type="button" class="btn btn-tool" style="color:darkgray" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </ul>
+
+                        </div>
+                    </div><!-- /.card-header -->
+                    <div class="card-body bg-cyan">
+                        <div class="tab-content p-0">
+                            <div class="chart tab-pane active" id="add-attachments"
+                                 style="position: relative; height: 300px;">
+                                <div class="form-group">
+                                    <h3>Ticket Attachments</h3>
+                                    <form method="post" enctype="Multipart/form-data" action="@Url.Action("Create","TicketAttachments")" id="attachmentform" class="comment-form">
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("TicketId", Model.Ticket.Id)
+                                        <div class="col-md-12">
+                                            <input name="attachment" type="file" class="form-control" id="attachment" />
+                                            @Html.ValidationMessageFor(model => model.Ticket.TicketAttachments, "", new { @class = "text-danger" })
+
+                                            @*@Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                                </div>*@
+
+
+
+                                            <button class="btn btn-secondary pull-right" type="submit">Submit</button>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="chart tab-pane overflow-auto" id="view-attachments" style="position: relative; height: 300px;">
+                                @foreach (var item in Model.Ticket.TicketAttachments)
+                                {
+                                    <div class="media-body">
+                                        <div class="well">
+                                            <div class="media-heading">
+                                                <span class="heading-font">@item.Name</span>&nbsp; <small>@item.Created.Month/@item.Created.Day/@item.Created.Year</small>
+                                            </div>
+                                            @item.FilePath
+
+                                            <p>@item.Details</p>
+
+                                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                            {
+                                                <div class="btn-group">
+                                                    @Html.ActionLink("Edit", "Edit", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                                    @Html.ActionLink("Delete", "Delete", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                                </div>
+                                            }
+                                            @Html.ActionLink("Details", "Details", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-sm btn-secondary" })
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!--History Card-->
+                <div class="card">
+                    <div class="card-header" style="color:black">
+                        <h3 class="card-title">
+                            History
+                        </h3>
+                        <div class="card-tools">
+                            <ul class="nav nav-pills ml-auto">
+                                <button type="button" class="btn btn-tool" style="color:darkgray" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </ul>
+
+                        </div>
+                    </div><!-- /.card-header -->
+                    <div class="card-body bg-cyan overflow-auto">
+                        <div class="tab-content p-0 overflow-auto">
+                            @foreach (var item in Model.Ticket.TicketHistories)
+                            {
+                                @*<div class="chart tab-pane overflow-auto" id="view-attachments" style="position: relative; height: 300px;">*@
+                                <div class="media-body overflow-auto">
+                                    <div class="well overflow-auto">
+                                        <div class="media-heading">
+                                            <span class="heading-font">Changed by: @item.ChangedBy</span>&nbsp; <small>@item.Changed</small>
+                                        </div>
+                                        Property:
+                                        <p>@item.Property</p>
+                                        Old Value:
+                                        <p>@item.OldValue</p>
+                                        New Value:
+                                        <p>@item.NewValue</p>
+                                        <hr />
+                                    </div>
+                                </div>
+                                @*</div>*@
+                            }
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>

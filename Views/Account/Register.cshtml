@@ -1,0 +1,153 @@
+﻿@model Kanopy.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kanopy</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link href="~/fonts/css/all.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link href="~/Content/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- iCheck -->
+    <link href="~/Content/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- JQVMap -->
+    <link href="~/Content/jqvmap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/adminlte.min.css" rel="stylesheet" />
+    <!-- overlayScrollbars -->
+    <link href="~/Content/OverlayScrollbars.min.css" rel="stylesheet" />
+    <!-- Daterange picker -->
+    <link href="~/Content/daterangepicker.css" rel="stylesheet" />
+    <!-- summernote -->
+    <link href="~/Content/summernote-bs4.css" rel="stylesheet" />
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+</head>
+
+
+<body style="background-color:dimgray">
+
+    @*<div class="content-wrapper bg-gradient-gray-dark">*@
+        <div class="container">
+
+            <div class="row">
+                <p style="padding-top: 20px"> </p>
+            </div>
+
+            <div class="row" style="padding-bottom:20px">
+                <div class="col-lg-10 offset-1">
+
+                    <div class="card">
+                        <div class="card-header" style="color:black">
+                            <h2 class="card-title">
+                                Register
+                            </h2>
+                        </div><!-- /.card-header -->
+                        <div class="card-body bg-cyan">
+                            <div class="tab-content p-0">
+                                <div class="chart tab-pane active" id="local-login"
+                                     style="position: relative; height: 540px;">
+                                    <div class="form-group">
+
+                                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <h5>Create a new account.</h5>
+                                            <hr />
+                                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-5 control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" class="btn btn-default" value="Register" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @section Scripts {
+            @*@Scripts.Render("~/bundles/jqueryval")*@
+        }
+        <!-- jQuery -->
+        <script src="~/Scripts/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="~/Scripts/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+        <!-- ChartJS -->
+        <script src="~/Scripts/Chart.min.js"></script>
+        <!-- Sparkline -->
+        <script src="~/Scripts/sparkline.js"></script>
+        <!-- JQVMap -->
+        <script src="~/Scripts/jquery.vmap.min.js"></script>
+        <script src="~/Scripts/jquery.vmap.usa.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="~/Scripts/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="~/Scripts/moment.min.js"></script>
+        <script src="~/Scripts/daterangepicker.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Summernote -->
+        <script src="~/Scripts/summernote-bs4.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="~/Scripts/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="~/Scripts/adminlte.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="~/Scripts/dashboard.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script>$('.table').DataTable();</script>
+    </div>
+</body>

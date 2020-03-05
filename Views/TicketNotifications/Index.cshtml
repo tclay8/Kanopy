@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Kanopy.Models.TicketNotification>
+
+
+<div class="content-wrapper bg-gradient-gray-dark">
+    <div class="container">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-white">Notifications</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="~/Home/Index">Dashboard</a></li>
+                            <li class="breadcrumb-item active text-white">Notification</li>
+                        </ol>
+                    </div>
+                </div><!-- /.row -->
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        @*<div class="row" style="padding-bottom:20px">*@
+        @*<div class="col-lg-10 offset-1">*@
+        <section style="padding-bottom:10px">
+
+            <div class="card">
+                <div class="card-header" style="color:black">
+                    <h2 class="card-title">
+                        Ticket Notification
+                    </h2>
+                </div><!-- /.card-header -->
+                <div class="card-body bg-cyan">
+                    <div class="tab-content p-0">
+                        <div class="chart tab-pane active overflow-auto" id="local-login"
+                             style="position: relative; height: 775px;">
+                            <div class="form-group">
+
+                                <table class="table">
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                Title
+                                            </th>
+                                            <th>
+                                                Sender
+                                            </th>
+                                            <th>
+                                                Date
+                                            </th>
+
+                                            <th>
+                                                Has Been Read
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Ticket.Title)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Sender.FirstName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Created)
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.HasBeenRead)
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Open", "Edit", new { id = item.Id }, new { @class = ("btn btn-sm btn-default") }) |
+                                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = ("btn btn-sm btn-default") })
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.card-body -->
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</div>
+</div>
+
+

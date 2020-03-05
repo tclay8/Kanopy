@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model IEnumerable<Kanopy.Models.TicketNotification>
+
+@if (Request.IsAuthenticated)
+{
+    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <ul class="navbar-nav ml-auto">
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        }*@
+}
+else
+{
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item d-none d-sm-inline-block">
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+        </li>
+    </ul>
+}
+
+@if (Request.IsAuthenticated)
+{
+    <!-- Messages Dropdown Menu -->
+    <ul class="navbar-nav ml-auto">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <ul class="navbar-nav ml-auto" style="padding-top:20px">
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        }
+
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-bell"></i>
+                <span class="badge badge-success navbar-badge">@Model.Count()</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">@Model.Count() Notifications</span>
+                <div class="dropdown-divider"></div>
+                @foreach (var item in Model)
+                {
+                    <a href="@Url.Action("Edit", "TicketNotifications", new { id = item.Id })" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> @item.NotificationBody.Substring(0, 35) ...
+                        <span class="float-right text-muted text-sm">@item.Created.ToString("MM/dd")</span>
+                    </a>
+                }
+                <div class="dropdown-divider"></div>
+            </div>
+        </li>
+        @*<li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                    <i class="fas fa-th-large"></i>
+                </a>
+            </li>*@
+
+    </ul>
+}
+
